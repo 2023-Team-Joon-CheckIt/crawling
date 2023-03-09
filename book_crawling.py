@@ -54,7 +54,7 @@ def get_info():
     weight = ''
 
     if(pages_weight_size.__len__() > 2):
-        weight = pages_weight_size[1].replace('g ','')
+        weight = pages_weight_size[1].replace(' ','').replace('g','')
         size = pages_weight_size[2].replace(' ','')
     else :
         size = pages_weight_size[1].replace(' ','')
