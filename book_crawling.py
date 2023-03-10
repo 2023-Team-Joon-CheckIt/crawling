@@ -58,12 +58,10 @@ def get_info():
         size = pages_weight_size[2].replace(' ','')
     else :
         size = pages_weight_size[1].replace(' ','')
+        
+    ISBN13 = table.split('ISBN13 ')[1].split('\n')[0]
 
-    ISBN13 = driver.find_element(By.XPATH,
-    r'//*[@id="infoset_specific"]/div[2]/div/table/tbody/tr[3]/td').text
-
-    ISBN10 = driver.find_element(By.XPATH,
-    r'//*[@id="infoset_specific"]/div[2]/div/table/tbody/tr[4]/td').text
+    ISBN10 = table.split('ISBN10 ')[1].split('\n')[0]
 
     book_info = {'title': title, 'author': author, 'img_url': img_url
                 , 'pages': pages, 'weight': weight, 'size': size, 'ISBN13': ISBN13, 'ISBN10': ISBN10}
