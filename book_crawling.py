@@ -28,8 +28,13 @@ def setting():
 def move_to_another_book(book_number):
     print(book_number)
     time.sleep(3)
+    
+    # try:
+    #     book = driver.find_element(By.XPATH, # book_number번째 책 상세정보로 이동
+    #     f'//*[@id="bestList"]/ol/li[{book_number}]/p[1]/a')
+    # except:
     book = driver.find_element(By.XPATH, # book_number번째 책 상세정보로 이동
-    f'//*[@id="bestList"]/ol/li[{book_number}]/p[1]/a')
+    f'//*[@id="bestList"]/ol/li[{book_number}]/p[3]/a')
     book.send_keys(Keys.ENTER)
 
 def get_info():
@@ -38,6 +43,9 @@ def get_info():
 
     author = driver.find_element(By.XPATH,
     r'//*[@id="yDetailTopWrap"]/div[2]/div[1]/span[2]/span[1]/a').text
+
+    publisher = driver.find_element(By.XPATH,
+    r'//*[@id="yDetailTopWrap"]/div[2]/div[1]/span[2]/span[2]/a').text
 
     try:
         img_url = driver.find_element(By.XPATH,
@@ -51,20 +59,20 @@ def get_info():
 
     pages_weight_size = table.split('쪽수, 무게, 크기 ')[1].split('mm')[0].split("|")
     pages = pages_weight_size[0].split("쪽 ")[0]
-    weight = ''
 
     if(pages_weight_size.__len__() > 2):
-        weight = pages_weight_size[1].replace(' ','').replace('g','')
-        size = pages_weight_size[2].replace(' ','')
+        size = pages_weight_size[2].replace(' ','').split("*")
     else :
-        size = pages_weight_size[1].replace(' ','')
-        
-    ISBN13 = table.split('ISBN13 ')[1].split('\n')[0]
+        size = pages_weight_size[1].replace(' ','').split("*")
+    width = size[0]
+    height = size[1]
+    thickness = size[2]
 
-    ISBN10 = table.split('ISBN10 ')[1].split('\n')[0]
+    category = driver.find_element(By.XPATH,
+    r'//*[@id="infoset_goodsCate"]/div[2]/dl[1]/dd/ul').text
 
-    book_info = {'title': title, 'author': author, 'img_url': img_url
-                , 'pages': pages, 'weight': weight, 'size': size, 'ISBN13': ISBN13, 'ISBN10': ISBN10}
+    book_info = {'title': title, 'author': author, 'publisher': publisher,'img_url': img_url
+                , 'pages': pages, 'width': width, 'height': height, 'thickness': thickness, 'category': category}
     print(book_info)
     return book_info
     
